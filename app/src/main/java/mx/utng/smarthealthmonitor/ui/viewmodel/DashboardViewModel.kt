@@ -28,5 +28,14 @@ class DashboardViewModel : ViewModel() {
             started      = SharingStarted.WhileSubscribed(5_000),
             initialValue = MockData.pasosActual
         )
+
+    val spO2 = SmartHealthRepository.spo2
+        .map { if (it == 0) MockData.sp02Actual else it }
+        .stateIn(
+            scope        = viewModelScope,
+            started      = SharingStarted.WhileSubscribed(5_000),
+            initialValue = MockData.sp02Actual
+        )
+
     val historial = MockData.historialFC  // TODO S7: Room
 }

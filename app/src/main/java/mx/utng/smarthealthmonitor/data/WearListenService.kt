@@ -9,6 +9,7 @@ class WearListenerService : WearableListenerService() {
     companion object {
         const val PATH_FC    = "/smarthealthmonitor/fc"
         const val PATH_PASOS = "/smarthealthmonitor/pasos"
+        val PATH_SPO2 = "/smarthealthmonitor/spo2"
         private const val TAG = "WearListener"
     }
 
@@ -25,6 +26,11 @@ class WearListenerService : WearableListenerService() {
             PATH_PASOS -> {
                 val pasos = data.toIntOrNull() ?: return
                 SmartHealthRepository.actualizarPasos(pasos)
+            }
+
+            PATH_SPO2 -> {
+                val spo2 = messageEvent.data.decodeToString().toInt()
+                SmartHealthRepository.agregarSpO2Flow(spo2)
             }
             else -> Log.w(TAG, "Path desconocido: $path")
         }

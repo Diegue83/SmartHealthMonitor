@@ -19,11 +19,18 @@ object SmartHealthRepository {
     private val _pasosFlow = MutableStateFlow(0)
     val pasosFlow: StateFlow<Int> = _pasosFlow.asStateFlow()
 
+    private val _spo2 = MutableStateFlow(0)
+    val spo2: StateFlow<Int> = _spo2
+
     fun actualizarFC(bpm: Int) {
         _fcFlow.value = bpm
     }
 
     fun actualizarPasos(pasos: Int) {
         _pasosFlow.value = pasos
+    }
+
+    fun agregarSpO2Flow(valor: Int) {
+        _spo2.value = valor
     }
 }
