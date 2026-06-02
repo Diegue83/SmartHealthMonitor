@@ -20,5 +20,6 @@ object MockData {
     )
     var fcActual = 67
     var pasosActual = 4250
+    var sp02Actual = 30
 }
 
