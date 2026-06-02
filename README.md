@@ -17,4 +17,14 @@ Desarrollada como proyecto integrador en UTNG — 9° Cuatrimestre 2025.
 - [ ] Android TV — S10-S12
  
 ## Autor
-Nombre Apellido — UTNG — nombre.apellido@utng.edu.mx
+Juan Diego Juarez Cruz — UTNG — 4181180400d@gmail.com
+
+# Vista previa de la aplicación
+## LogIn
+<img width="800" height="1800" alt="image" src="https://github.com/user-attachments/assets/0d3f1d6e-68a5-4989-87ed-e9c4b7b15334" />
+
+## Dashboard
+<img width="800" height="1800" alt="image" src="https://github.com/user-attachments/assets/9a8d4647-a69c-401c-bc4a-5da79f54101e" />
+
+
+
