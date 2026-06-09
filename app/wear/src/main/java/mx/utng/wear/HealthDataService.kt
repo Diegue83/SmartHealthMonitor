@@ -1,6 +1,8 @@
 package mx.utng.wear
 
+import WearDataSender
 import android.content.Context
+import android.util.Log
 import androidx.health.services.client.HealthServices
 import androidx.health.services.client.PassiveListenerService
 import androidx.health.services.client.data.DataPointContainer
@@ -21,16 +23,48 @@ class HealthDataService : PassiveListenerService() {
 
     override fun onCreate() {
         super.onCreate()
+
+        Log.d("HealthDataService", "Servicio creado")
         wearDataSender = WearDataSender(this)  // S6: MessageClient
     }
 
     override fun onNewDataPointsReceived(dataPoints: DataPointContainer) {
+
+        Log.d("HealthDataService", "onNewDataPointsReceived llamado")
+
         val fcDataPoints = dataPoints.getData(DataType.HEART_RATE_BPM)
 
+        Log.d(
+            "HealthDataService",
+            "Cantidad de datos FC recibidos: ${fcDataPoints.size}"
+        )
+
         fcDataPoints.forEach { dataPoint ->
+
+            Log.d(
+                "HealthDataService",
+                "DataPoint recibido: $dataPoint"
+            )
+
             if (dataPoint is SampleDataPoint<Double>) {
+
+                Log.d(
+                    "HealthDataService",
+                    "Entró al if SampleDataPoint<Double>"
+                )
+
                 val bpm = dataPoint.value.toInt()
-                scope.launch { wearDataSender.enviarFC(bpm) }
+
+                Log.d(
+                    "HealthDataService",
+                    "Heart Rate recibido: $bpm BPM"
+                )
+
+                HeartRateManager.updateHeartRate(bpm)
+
+                scope.launch {
+                    wearDataSender.enviarFC(bpm)
+                }
             }
         }
     }
@@ -42,6 +76,9 @@ class HealthDataService : PassiveListenerService() {
 
     companion object {
         suspend fun registrar(context: Context) {
+
+            Log.d("HealthDataService", "Iniciando registro")
+
             val hsClient = HealthServices.getClient(context)
             val passiveClient = hsClient.passiveMonitoringClient
 
@@ -54,6 +91,8 @@ class HealthDataService : PassiveListenerService() {
                 HealthDataService::class.java,
                 config
             ).await()
+
+            Log.d("HealthDataService", "Registro completado")
         }
     }
 }
