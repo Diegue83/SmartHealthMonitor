@@ -9,8 +9,10 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -23,13 +25,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import mx.utng.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlertaScreen(
     fc: Int,                       // FC actual del Dashboard
     onDismiss: () -> Unit,          // Cancelar / cerrar
-    onConfirmar: () -> Unit         // Confirmar y enviar alerta
+    onConfirmar: (String) -> Unit         // Confirmar y enviar alerta
 ) {
     var enviando by remember { mutableStateOf(false) }
+
+    var mensaje = ""
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -56,7 +61,16 @@ fun AlertaScreen(
                 )
                 Text(
                     text = "Se notificará a tus contactos de emergencia.\n" +
-                            "Esta acción no se puede deshacer."
+                            "Esta acción no se puede deshacer.\n" +
+                            "Mensaje Adicional: ",
+
+                )
+                OutlinedTextField(
+                    value = mensaje,
+                    onValueChange = { mensaje = it },
+                    label = {
+                        Text("Describe la situación")
+                    }
                 )
             }
         },
@@ -64,7 +78,7 @@ fun AlertaScreen(
             Button(
                 onClick = {
                     enviando = true
-                    onConfirmar()
+                    onConfirmar(mensaje)
                 },
                 enabled = !enviando,
                 colors  = ButtonDefaults.buttonColors(

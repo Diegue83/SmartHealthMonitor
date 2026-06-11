@@ -18,6 +18,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -25,18 +28,27 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 import mx.utng.smarthealthmonitor.BuildConfig
 import mx.utng.smarthealthmonitor.data.SmartHealthRepository
+import mx.utng.smarthealthmonitor.data.models.LecturaFC
 import mx.utng.smarthealthmonitor.ui.components.FilaHistorial
 import mx.utng.smarthealthmonitor.ui.components.TarjetaDato
 import mx.utng.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme
 import mx.utng.smarthealthmonitor.ui.viewmodel.DashboardViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 // ui/screens/DashboardScreen.kt
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,10 +62,34 @@ fun DashboardScreen(
     val fc     by viewModel.fc.collectAsState()
     val pasos  by viewModel.pasos.collectAsState()
     val spO2   by viewModel.spO2.collectAsState()
-    val historial = viewModel.historial
+    val historial = viewModel.historial.collectAsState()
+
+    // ── Estado del diálogo y Snackbar ──────────────────────
+    var mostrarAlerta by remember { mutableStateOf(false) }
+    val snackbarHost  = remember { SnackbarHostState() }
+    val scope         = rememberCoroutineScope()
+
+    // ── Diálogo condicional ────────────────────────────────
+    if (mostrarAlerta) {
+        AlertaScreen(
+            fc          = fc,
+            onDismiss   = { mostrarAlerta = false },
+            onConfirmar = {
+                mostrarAlerta = false
+                scope.launch {
+                    snackbarHost.showSnackbar(
+                        message  = "✅ Alerta enviada a tus contactos de emergencia",
+                        duration = SnackbarDuration.Long
+                    )
+                }
+            }
+        )
+    }
+
 
     SmartHealthMonitorTheme{
         Scaffold(
+            snackbarHost = { SnackbarHost(hostState = snackbarHost) },
             topBar = {
                 TopAppBar(
                     title = {
@@ -70,7 +106,7 @@ fun DashboardScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick       = onAlertClick,
+                    onClick        = { mostrarAlerta = true },
                     containerColor = MaterialTheme.colorScheme.error
                 ) {
                     Icon(
@@ -139,7 +175,7 @@ fun DashboardScreen(
                     }
                 }
                 // ── Lista del historial ───────────────────
-                items(historial, key = { it.id }) { lectura ->
+                items(historial.value, key = { it.id }) { lectura ->
                     FilaHistorial(lectura = lectura)
                 }
                 item {
@@ -151,6 +187,14 @@ fun DashboardScreen(
                                 val fcSimulado = (60..110).random()
                                 SmartHealthRepository.actualizarFC(fcSimulado)
                                 SmartHealthRepository.actualizarPasos((3000..8000).random())
+                                SmartHealthRepository.agregarRegistroFC(
+                                    LecturaFC(
+                                        id = System.currentTimeMillis().toInt(),
+                                        valorBpm = fcSimulado,
+                                        hora = SimpleDateFormat("HH:mm", Locale.getDefault())
+                                            .format(Date())
+                                    )
+                                )
                             },
                             modifier = Modifier.fillMaxWidth()
                         ) {
