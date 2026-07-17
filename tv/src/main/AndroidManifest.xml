@@ -26,6 +26,14 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".presentation.TvDataReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="mx.utng.tv.UPDATE_DATA" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
