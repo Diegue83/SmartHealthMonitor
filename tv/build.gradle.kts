@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "mx.utng.tv"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "mx.utng.tv"
-        minSdk = 30
-        targetSdk = 35
+        minSdk = 23
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -41,16 +41,17 @@ android {
 }
 
 dependencies {
-    // Jetpack Compose for TV
-    implementation(platform("androidx.compose:compose-bom:2024.12.01"))
-    implementation("androidx.tv:tv-foundation:1.0.0")
-    implementation("androidx.tv:tv-material:1.0.0")
+    // Jetpack Compose for TV - Versiones compatibles con AGP 8.1.2
+    implementation(platform("androidx.compose:compose-bom:2024.04.01"))
+    implementation("androidx.tv:tv-foundation:1.0.0-alpha10")
+    implementation("androidx.tv:tv-material:1.0.0-alpha10")
     
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.foundation:foundation")
-    implementation("androidx.activity:activity-compose:1.9.3")
-    implementation("androidx.navigation:navigation-compose:2.8.5")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     
     // Compartir modelos y repositorio
     implementation(project(":shared"))
@@ -58,6 +59,6 @@ dependencies {
     // Tooling & Testing
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.12.01"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.04.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 }
