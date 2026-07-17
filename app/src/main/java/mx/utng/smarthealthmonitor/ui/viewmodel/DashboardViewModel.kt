@@ -37,5 +37,17 @@ class DashboardViewModel : ViewModel() {
             initialValue = MockData.sp02Actual
         )
 
-    val historial = MockData.historialFC  // TODO S7: Room
+    val historial = SmartHealthRepository.historial
+        .map { historial ->
+            if (historial.isEmpty()) {
+                MockData.historialFC
+            } else {
+                historial
+            }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = MockData.historialFC
+        )
 }

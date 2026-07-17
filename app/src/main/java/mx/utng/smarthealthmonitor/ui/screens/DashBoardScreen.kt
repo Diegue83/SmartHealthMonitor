@@ -40,8 +40,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import mx.utng.smarthealthmonitor.BuildConfig
-import mx.utng.shared.data.SmartHealthRepository
-import mx.utng.shared.data.models.LecturaFC
+import mx.utng.smarthealthmonitor.data.SmartHealthRepository
+import mx.utng.smarthealthmonitor.data.models.LecturaFC
 import mx.utng.smarthealthmonitor.ui.components.FilaHistorial
 import mx.utng.smarthealthmonitor.ui.components.TarjetaDato
 import mx.utng.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme

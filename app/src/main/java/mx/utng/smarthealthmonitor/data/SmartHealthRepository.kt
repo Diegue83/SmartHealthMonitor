@@ -1,11 +1,8 @@
 package mx.utng.smarthealthmonitor.data
 
-import android.content.Context
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import mx.utng.smarthealthmonitor.data.db.LecturaFCDao
-import mx.utng.smarthealthmonitor.data.db.SmartHealthDB
 import mx.utng.smarthealthmonitor.data.models.LecturaFC
 
 /**
@@ -43,11 +40,5 @@ object SmartHealthRepository {
 
     fun agregarRegistroFC(lectura: LecturaFC) {
         _historial.value = listOf(lectura) + _historial.value
-    }
-
-    private var dao: LecturaFCDao? = null
-
-    fun init(context: Context) {
-        dao = SmartHealthDB.getDatabase(context).lecturaDao()
     }
 }
