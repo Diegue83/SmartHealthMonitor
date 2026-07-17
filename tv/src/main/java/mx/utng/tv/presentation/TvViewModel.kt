@@ -19,7 +19,7 @@ class TvViewModel : ViewModel() {
     private fun observarDatos() {
         viewModelScope.launch {
             // 1. Recolectar historial (desde Room DAO vía Repository)
-            SmartHealthRepository.historial
+            SmartHealthRepository.obtenerHistorial()
                 .onStart { _uiState.update { it.copy(isLoading = true) } }
                 .catch { e -> _uiState.update { it.copy(error = e.message, isLoading = false) } }
                 .onEach { lista -> 

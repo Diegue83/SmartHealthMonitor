@@ -1,6 +1,6 @@
 package mx.utng.wear.presentation
 
-import WearDataSender
+import mx.utng.wear.WearDataSender
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity

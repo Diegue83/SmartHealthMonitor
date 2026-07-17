@@ -1,6 +1,5 @@
 package mx.utng.wear
 
-import WearDataSender
 import android.content.Context
 import android.util.Log
 import androidx.health.services.client.HealthServices

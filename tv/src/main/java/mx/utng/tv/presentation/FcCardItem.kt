@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.tv.material3.*
 import mx.utng.shared.data.models.LecturaFC
 
@@ -16,7 +15,7 @@ import mx.utng.shared.data.models.LecturaFC
 fun FcCardItem(
     lectura: LecturaFC,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         onClick = onClick,
@@ -39,7 +38,7 @@ fun FcCardItem(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "${lectura.valorBpm}",
+                text = lectura.valorBpm.toString(),
                 style = MaterialTheme.typography.displayMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.White

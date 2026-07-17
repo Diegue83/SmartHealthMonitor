@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "mx.utng.smarthealthmonitor"
-        minSdk = 26
+        minSdk = 30
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -41,7 +42,7 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -69,8 +70,14 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.navigation:navigation-compose:2.8.0")
-    implementation("com.google.android.gms:play-services-wearable:18.2.0")
+    implementation("com.google.android.gms:play-services-wearable:20.0.1")
     // Coroutines para await()
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    // Necesario para generar el código del DAO
+    //noinspection GradleDependency
+    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation(project(":shared"))
 }

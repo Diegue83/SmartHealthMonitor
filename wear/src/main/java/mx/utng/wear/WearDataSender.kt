@@ -1,3 +1,5 @@
+package mx.utng.wear
+
 import android.content.Context
 import android.util.Log
 import com.google.android.gms.wearable.CapabilityClient
@@ -14,6 +16,11 @@ class WearDataSender(private val context: Context) {
     suspend fun enviarPasos(pasos: Int) {
         Log.d("WearDataSender", "Intentando enviar Pasos: $pasos")
         enviarMensaje("/smarthealthmonitor/pasos", pasos.toString())
+    }
+
+    suspend fun enviarSpO2(valor: Int) {
+        Log.d("WearDataSender", "Intentando enviar SpO2: $valor")
+        enviarMensaje("/smarthealthmonitor/spo2", valor.toString())
     }
 
     private suspend fun enviarMensaje(path: String, data: String) {

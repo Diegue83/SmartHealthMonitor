@@ -3,6 +3,7 @@ package mx.utng.smarthealthmonitor.data
 import android.util.Log
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
+import mx.utng.shared.data.SmartHealthRepository
 
 class WearListenerService : WearableListenerService() {
 

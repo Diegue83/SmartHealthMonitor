@@ -1,9 +1,7 @@
 package mx.utng.shared.data
 
 import android.content.Context
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import mx.utng.shared.data.db.LecturaFCDao
 import mx.utng.shared.data.db.SmartHealthDB
 import mx.utng.shared.data.models.LecturaFC
@@ -46,6 +44,10 @@ object SmartHealthRepository {
     }
 
     private var dao: LecturaFCDao? = null
+
+    fun obtenerHistorial(): Flow<List<LecturaFC>> {
+        return dao?.obtenerUltimas() ?: flowOf(emptyList())
+    }
 
     fun init(context: Context) {
         dao = SmartHealthDB.getDatabase(context).lecturaDao()

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import mx.utng.smarthealthmonitor.data.SmartHealthRepository
+import mx.utng.shared.data.SmartHealthRepository
 
 class WearDashboardViewModel : ViewModel() {
 

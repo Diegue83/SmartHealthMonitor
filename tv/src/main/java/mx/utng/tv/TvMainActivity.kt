@@ -4,13 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.tv.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Surface
+import mx.utng.tv.presentation.TvCatalogScreen
+import mx.utng.tv.presentation.TvViewModel
+import mx.utng.tv.presentation.TvViewModelFactory
 import mx.utng.tv.ui.theme.SmartHealthMonitorTheme
 
 class TvMainActivity : ComponentActivity() {
@@ -23,25 +27,20 @@ class TvMainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     shape = RectangleShape
                 ) {
-                    Greeting("Android")
+                    val navController = rememberNavController()
+                    
+                    // Inicializar ViewModel con Factory para inyectar contexto
+                    val viewModel: TvViewModel = viewModel(
+                        factory = TvViewModelFactory(applicationContext)
+                    )
+
+                    NavHost(navController = navController, startDestination = "catalog") {
+                        composable("catalog") {
+                            TvCatalogScreen(viewModel = viewModel)
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SmartHealthMonitorTheme {
-        Greeting("Android")
     }
 }
