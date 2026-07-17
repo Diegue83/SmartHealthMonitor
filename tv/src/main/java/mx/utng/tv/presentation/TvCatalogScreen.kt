@@ -1,6 +1,9 @@
 package mx.utng.tv.presentation
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -8,9 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.foundation.lazy.list.TvLazyColumn
-import androidx.tv.foundation.lazy.list.TvLazyRow
-import androidx.tv.foundation.lazy.list.items
 import androidx.tv.material3.*
 
 @OptIn(ExperimentalTvMaterial3Api::class)
@@ -29,7 +29,7 @@ fun TvCatalogScreen(
             )
         }
     } else {
-        TvLazyColumn(
+        LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(32.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
@@ -52,7 +52,7 @@ fun TvCatalogScreen(
                         color = Color.LightGray,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    TvLazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(uiState.lecturas.take(3)) { lectura ->
                             FcCardItem(lectura = lectura, onClick = { /* Acción */ })
                         }
@@ -69,7 +69,7 @@ fun TvCatalogScreen(
                         color = Color.LightGray,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    TvLazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(uiState.lecturas) { lectura ->
                             FcCardItem(lectura = lectura, onClick = { /* Acción */ })
                         }
